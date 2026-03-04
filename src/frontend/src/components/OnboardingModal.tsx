@@ -31,6 +31,7 @@ const DEMO_AMOUNTS = [5000, 7000, 8000, 10000, 12000, 15000];
 
 export interface UserProfile {
   username: string;
+  email: string;
   phone: string;
   country: string;
   dialCode: string;
@@ -44,26 +45,65 @@ interface OnboardingModalProps {
 
 export function OnboardingModal({ onComplete }: OnboardingModalProps) {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
   const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [showCountrySelect, setShowCountrySelect] = useState(false);
 
   const validate = () => {
     let valid = true;
-    if (!username.trim() || username.trim().length < 3) {
+
+    // Username: only letters and numbers, no spaces, no special chars
+    const trimmedUsername = username.trim();
+    if (!trimmedUsername || trimmedUsername.length < 3) {
       setUsernameError("Username must be at least 3 characters");
       valid = false;
+    } else if (!/^[a-zA-Z0-9]+$/.test(trimmedUsername)) {
+      setUsernameError(
+        "Username can only contain letters and numbers (no spaces or special characters)",
+      );
+      valid = false;
     } else {
-      setUsernameError("");
+      // Duplicate check against taken usernames in localStorage
+      const taken: string[] = (() => {
+        try {
+          return JSON.parse(
+            localStorage.getItem("cvai_taken_usernames") ?? "[]",
+          ) as string[];
+        } catch {
+          return [];
+        }
+      })();
+      if (taken.includes(trimmedUsername.toLowerCase())) {
+        setUsernameError("Username already taken. Please choose another.");
+        valid = false;
+      } else {
+        setUsernameError("");
+      }
     }
+
+    // Email validation
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      setEmailError(
+        "Please enter a valid email address (e.g. yourname@gmail.com)",
+      );
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    // Phone validation
     if (!phone.trim() || !/^\d{6,15}$/.test(phone.replace(/\s/g, ""))) {
       setPhoneError("Enter a valid phone number (digits only)");
       valid = false;
     } else {
       setPhoneError("");
     }
+
     return valid;
   };
 
@@ -71,10 +111,26 @@ export function OnboardingModal({ onComplete }: OnboardingModalProps) {
     e.preventDefault();
     if (!validate()) return;
 
+    const trimmedUsername = username.trim();
+
+    // Register username as taken (case-insensitive)
+    const taken: string[] = (() => {
+      try {
+        return JSON.parse(
+          localStorage.getItem("cvai_taken_usernames") ?? "[]",
+        ) as string[];
+      } catch {
+        return [];
+      }
+    })();
+    taken.push(trimmedUsername.toLowerCase());
+    localStorage.setItem("cvai_taken_usernames", JSON.stringify(taken));
+
     const demoBalance =
       DEMO_AMOUNTS[Math.floor(Math.random() * DEMO_AMOUNTS.length)];
     const profile: UserProfile = {
-      username: username.trim(),
+      username: trimmedUsername,
+      email: email.trim(),
       phone: phone.trim(),
       country: selectedCountry.name,
       dialCode: selectedCountry.dial,
@@ -101,6 +157,8 @@ export function OnboardingModal({ onComplete }: OnboardingModalProps) {
           border: "1px solid oklch(0.25 0.012 240)",
           boxShadow:
             "0 24px 80px oklch(0.05 0.005 240 / 0.9), 0 0 0 1px oklch(0.82 0.16 88 / 0.08)",
+          maxHeight: "90vh",
+          overflowY: "auto",
         }}
       >
         {/* Top gradient bar */}
@@ -188,6 +246,55 @@ export function OnboardingModal({ onComplete }: OnboardingModalProps) {
                   style={{ color: "oklch(0.72 0.18 25)" }}
                 >
                   {usernameError}
+                </p>
+              )}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="onboarding-email"
+                className="block text-xs font-mono font-medium mb-1.5"
+                style={{ color: "oklch(0.65 0.012 225)" }}
+              >
+                Email Address
+              </label>
+              <input
+                id="onboarding-email"
+                type="email"
+                autoComplete="email"
+                placeholder="yourname@gmail.com"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailError("");
+                }}
+                data-ocid="onboarding.email_input"
+                className="w-full rounded-xl px-4 py-3 text-sm font-mono outline-none transition-all placeholder:opacity-40"
+                style={{
+                  background: "oklch(0.105 0.006 240)",
+                  border: emailError
+                    ? "1px solid oklch(0.65 0.22 25)"
+                    : "1px solid oklch(0.22 0.010 240)",
+                  color: "oklch(0.92 0.008 220)",
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border =
+                    "1px solid oklch(0.82 0.16 88 / 0.6)";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = emailError
+                    ? "1px solid oklch(0.65 0.22 25)"
+                    : "1px solid oklch(0.22 0.010 240)";
+                }}
+              />
+              {emailError && (
+                <p
+                  data-ocid="onboarding.email_error"
+                  className="mt-1 text-xs font-mono"
+                  style={{ color: "oklch(0.72 0.18 25)" }}
+                >
+                  {emailError}
                 </p>
               )}
             </div>

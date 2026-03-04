@@ -55,8 +55,12 @@ export function AppShell() {
 
   return (
     <div
-      className="flex flex-col h-screen overflow-hidden"
-      style={{ background: "oklch(0.10 0.005 240)" }}
+      className="flex flex-col overflow-hidden"
+      style={{
+        background: "oklch(0.10 0.005 240)",
+        /* Use dynamic viewport height so iOS Safari address bar is accounted for */
+        height: "100dvh",
+      }}
     >
       <Toaster />
 

@@ -55,8 +55,10 @@ export function BottomNav() {
             aria-label="Close menu"
           />
           <div
-            className="fixed bottom-16 left-0 right-0 z-50 md:hidden p-4 rounded-t-xl"
+            className="fixed left-0 right-0 z-50 md:hidden p-4 rounded-t-xl"
             style={{
+              /* Sits above the bottom nav (64px) + iPhone home indicator */
+              bottom: "calc(4rem + env(safe-area-inset-bottom))",
               background: "oklch(0.14 0.008 235)",
               border: "1px solid oklch(0.22 0.010 240)",
               borderBottom: "none",
@@ -146,10 +148,15 @@ export function BottomNav() {
 
       {/* Bottom bar */}
       <nav
-        className="fixed bottom-0 left-0 right-0 z-40 flex md:hidden h-16"
+        className="fixed bottom-0 left-0 right-0 z-40 flex md:hidden"
         style={{
           background: "oklch(0.11 0.006 240)",
           borderTop: "1px solid oklch(0.20 0.010 240)",
+          /* Reserve space for iPhone home indicator bar */
+          paddingBottom: "env(safe-area-inset-bottom)",
+          /* Reserve space for iPhone side notches */
+          paddingLeft: "env(safe-area-inset-left)",
+          paddingRight: "env(safe-area-inset-right)",
         }}
       >
         {MAIN_NAV.map(({ id, icon: Icon, label }) => {
@@ -159,7 +166,7 @@ export function BottomNav() {
               key={id}
               type="button"
               onClick={() => setActivePage(id)}
-              className="flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors"
+              className="flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors h-16"
               style={
                 isActive
                   ? { color: "oklch(0.82 0.16 88)" }
@@ -181,7 +188,7 @@ export function BottomNav() {
         <button
           type="button"
           onClick={() => setShowMore((v) => !v)}
-          className="flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors"
+          className="flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors h-16"
           style={
             isMoreActive || showMore
               ? { color: "oklch(0.82 0.16 88)" }

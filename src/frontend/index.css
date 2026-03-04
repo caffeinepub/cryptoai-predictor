@@ -94,11 +94,29 @@
 
   html {
     color-scheme: dark;
+    /* Prevent scroll bounce on iOS when installed as PWA */
+    overflow: hidden;
+    height: 100%;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: "tnum" on, "lnum" on;
+    /* Prevent pull-to-refresh rubber banding in PWA standalone mode */
+    overscroll-behavior: none;
+    /* Remove iOS tap highlight on interactive elements */
+    -webkit-tap-highlight-color: transparent;
+    /* Ensure body fills the full dynamic viewport */
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Smooth momentum scrolling for overflow containers on iOS */
+  .overflow-y-auto,
+  .overflow-y-scroll,
+  .overflow-auto,
+  .overflow-scroll {
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Scrollbar */

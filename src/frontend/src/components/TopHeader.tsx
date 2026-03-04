@@ -259,10 +259,17 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
 
   return (
     <header
-      className="sticky top-0 z-30 flex items-center h-14 px-3 gap-2 shrink-0"
+      className="sticky top-0 z-30 flex items-center px-3 gap-2 shrink-0"
       style={{
         background: "oklch(0.11 0.006 240)",
         borderBottom: "1px solid oklch(0.20 0.010 240)",
+        /* Push content below the iOS status bar in standalone mode */
+        paddingTop: "env(safe-area-inset-top)",
+        /* Reserve space for iPhone side notches */
+        paddingLeft: "calc(0.75rem + env(safe-area-inset-left))",
+        paddingRight: "calc(0.75rem + env(safe-area-inset-right))",
+        /* Minimum touch-target height + safe-area-inset-top */
+        minHeight: "calc(3.5rem + env(safe-area-inset-top))",
       }}
     >
       {/* Mobile menu button */}

@@ -1,11 +1,53 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover ensures content extends under iPhone notch/home indicator -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
     <title>Crypto Vision AI</title>
+    <meta name="description" content="AI-Powered Crypto Market Intelligence — Real-time buy/sell/hold signals, live charts, and market predictions." />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Theme color (matches app dark background) -->
+    <meta name="theme-color" content="#0a0f1e" />
+    <meta name="msapplication-TileColor" content="#0a0f1e" />
+
+    <!-- iOS / Safari PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="CryptoVision" />
+    <link rel="apple-touch-icon" href="/assets/generated/pwa-icon-192.dim_192x192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/assets/generated/pwa-icon-192.dim_192x192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/generated/pwa-icon-512.dim_512x512.png" />
+
+    <!-- Android Chrome PWA -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="CryptoVision" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/generated/pwa-icon-192.dim_192x192.png" />
+
+    <!-- Prevent phone number auto-detection on iOS -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Color scheme -->
+    <meta name="color-scheme" content="dark" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Register Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').catch(function () {
+            // SW registration failed silently — app still works
+          });
+        });
+      }
+    </script>
   </body>
 </html>

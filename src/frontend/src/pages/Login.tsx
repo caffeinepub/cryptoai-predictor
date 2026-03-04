@@ -65,8 +65,17 @@ export function Login() {
 
   return (
     <div
-      className="min-h-screen flex flex-col terminal-grid scanline relative overflow-hidden"
-      style={{ background: "oklch(0.11 0.008 240)" }}
+      className="flex flex-col terminal-grid scanline relative overflow-y-auto"
+      style={{
+        background: "oklch(0.11 0.008 240)",
+        /* Dynamic viewport height — shrinks when iOS address bar shows */
+        minHeight: "100dvh",
+        /* Respect iPhone notch/home indicator on all sides */
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
+        paddingLeft: "env(safe-area-inset-left)",
+        paddingRight: "env(safe-area-inset-right)",
+      }}
     >
       {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
