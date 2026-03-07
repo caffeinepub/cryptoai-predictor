@@ -146,7 +146,7 @@ export function SubscriptionPage() {
   return (
     <div
       data-ocid="subscription.page"
-      className="flex flex-col h-full overflow-y-auto"
+      className="flex flex-col h-full overflow-y-auto pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0"
       style={{ background: "oklch(0.10 0.005 240)" }}
     >
       {/* Active plan banner */}

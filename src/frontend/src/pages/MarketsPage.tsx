@@ -99,7 +99,7 @@ export function MarketsPage() {
     <div className="flex flex-col h-full">
       {/* Page header */}
       <div
-        className="flex flex-wrap items-center gap-3 px-4 py-3 shrink-0"
+        className="flex flex-wrap items-center gap-2 px-4 py-3 shrink-0"
         style={{ borderBottom: "1px solid oklch(0.20 0.010 240)" }}
       >
         <h1 className="font-display font-bold text-base text-foreground">
@@ -135,7 +135,7 @@ export function MarketsPage() {
 
         {/* Search */}
         <div
-          className="flex items-center gap-2 px-3 py-1.5 rounded ml-auto"
+          className="flex items-center gap-2 px-3 py-1.5 rounded w-full sm:w-auto sm:ml-auto mt-1 sm:mt-0"
           style={{
             background: "oklch(0.155 0.008 235)",
             border: "1px solid oklch(0.22 0.010 240)",
@@ -153,7 +153,7 @@ export function MarketsPage() {
       </div>
 
       {/* Table */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
         {/* Desktop table */}
         <table className="w-full hidden md:table">
           <thead className="sticky top-0 z-10">
@@ -333,7 +333,7 @@ export function MarketsPage() {
                       e.stopPropagation();
                       handleToggle(coin.symbol);
                     }}
-                    className="p-1"
+                    className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
                   >
                     <Star
                       className="w-4 h-4"

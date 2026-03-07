@@ -35,7 +35,7 @@ export function AboutPage() {
 
   return (
     <div
-      className="flex-1 overflow-y-auto"
+      className="h-full overflow-y-auto"
       data-ocid="about.page"
       style={{ background: "oklch(0.10 0.005 240)" }}
     >

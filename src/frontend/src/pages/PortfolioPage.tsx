@@ -113,7 +113,7 @@ export function PortfolioPage() {
 
   return (
     <div className="flex flex-col h-full overflow-y-auto">
-      <div className="px-4 py-4 space-y-5">
+      <div className="px-4 py-4 space-y-5 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-5">
         {/* Summary cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {summaryCards.map(({ label, value, sub, color }) => (
@@ -277,152 +277,156 @@ export function PortfolioPage() {
           >
             Open Positions
           </div>
-          <table className="w-full">
-            <thead>
-              <tr
-                style={{
-                  background: "oklch(0.13 0.007 240)",
-                  borderBottom: "1px solid oklch(0.20 0.010 240)",
-                }}
-              >
-                {[
-                  "Coin",
-                  "Side",
-                  "Qty",
-                  "Entry",
-                  "Current",
-                  "P&L ($)",
-                  "P&L (%)",
-                  "Signal",
-                  "",
-                ].map((h) => (
-                  <th
-                    key={h}
-                    className="px-3 py-2 text-left text-[11px] font-mono font-medium text-muted-foreground whitespace-nowrap first:pl-4"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {positionData.map((pos) => {
-                const sigStyle = pos.signal
-                  ? SIG_STYLE[pos.signal.recommendation]
-                  : null;
-                return (
-                  <tr
-                    key={pos.symbol}
-                    className="exchange-row"
-                    style={{ borderBottom: "1px solid oklch(0.18 0.008 235)" }}
-                  >
-                    <td className="pl-4 pr-3 py-2.5">
-                      <div className="flex items-center gap-2">
-                        <CoinLogo
-                          symbol={pos.symbol}
-                          color={pos.color}
-                          size={24}
-                        />
-                        <span className="text-xs font-semibold text-foreground">
-                          {pos.symbol}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <span
-                        className="px-1.5 py-0.5 rounded text-[10px] font-bold font-mono"
-                        style={
-                          pos.side === "LONG"
-                            ? {
-                                background: "oklch(0.72 0.18 155 / 0.15)",
-                                color: "oklch(0.72 0.18 155)",
-                              }
-                            : {
-                                background: "oklch(0.65 0.22 25 / 0.15)",
-                                color: "oklch(0.65 0.22 25)",
-                              }
-                        }
-                      >
-                        {pos.side}
-                      </span>
-                    </td>
-                    <td className="px-3 py-2.5 font-mono text-xs text-foreground">
-                      {pos.quantity % 1 === 0
-                        ? pos.quantity.toLocaleString()
-                        : pos.quantity.toFixed(4)}
-                    </td>
-                    <td className="px-3 py-2.5 font-mono text-xs text-muted-foreground">
-                      {formatPrice(pos.entryPrice)}
-                    </td>
-                    <td className="px-3 py-2.5 font-mono text-xs text-foreground">
-                      {formatPrice(pos.currentPrice)}
-                    </td>
-                    <td
-                      className="px-3 py-2.5 font-mono text-xs font-semibold"
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[700px]">
+              <thead>
+                <tr
+                  style={{
+                    background: "oklch(0.13 0.007 240)",
+                    borderBottom: "1px solid oklch(0.20 0.010 240)",
+                  }}
+                >
+                  {[
+                    "Coin",
+                    "Side",
+                    "Qty",
+                    "Entry",
+                    "Current",
+                    "P&L ($)",
+                    "P&L (%)",
+                    "Signal",
+                    "",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="px-3 py-2 text-left text-[11px] font-mono font-medium text-muted-foreground whitespace-nowrap first:pl-4"
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {positionData.map((pos) => {
+                  const sigStyle = pos.signal
+                    ? SIG_STYLE[pos.signal.recommendation]
+                    : null;
+                  return (
+                    <tr
+                      key={pos.symbol}
+                      className="exchange-row"
                       style={{
-                        color:
-                          pos.pnl >= 0
-                            ? "oklch(0.72 0.18 155)"
-                            : "oklch(0.65 0.22 25)",
+                        borderBottom: "1px solid oklch(0.18 0.008 235)",
                       }}
                     >
-                      {pos.pnl >= 0 ? "+" : ""}
-                      {formatLargeNumber(pos.pnl)}
-                    </td>
-                    <td
-                      className="px-3 py-2.5 font-mono text-xs font-semibold"
-                      style={{
-                        color:
-                          pos.pnlPct >= 0
-                            ? "oklch(0.72 0.18 155)"
-                            : "oklch(0.65 0.22 25)",
-                      }}
-                    >
-                      {pos.pnlPct >= 0 ? "+" : ""}
-                      {pos.pnlPct.toFixed(2)}%
-                    </td>
-                    <td className="px-3 py-2.5">
-                      {pos.signal && sigStyle && (
+                      <td className="pl-4 pr-3 py-2.5">
+                        <div className="flex items-center gap-2">
+                          <CoinLogo
+                            symbol={pos.symbol}
+                            color={pos.color}
+                            size={24}
+                          />
+                          <span className="text-xs font-semibold text-foreground">
+                            {pos.symbol}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-3 py-2.5">
                         <span
-                          className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold font-mono"
-                          style={{
-                            background: sigStyle.bg,
-                            color: sigStyle.color,
-                          }}
+                          className="px-1.5 py-0.5 rounded text-[10px] font-bold font-mono"
+                          style={
+                            pos.side === "LONG"
+                              ? {
+                                  background: "oklch(0.72 0.18 155 / 0.15)",
+                                  color: "oklch(0.72 0.18 155)",
+                                }
+                              : {
+                                  background: "oklch(0.65 0.22 25 / 0.15)",
+                                  color: "oklch(0.65 0.22 25)",
+                                }
+                          }
                         >
-                          {pos.signal.recommendation === "BUY" && (
-                            <TrendingUp className="w-2.5 h-2.5" />
-                          )}
-                          {pos.signal.recommendation === "SELL" && (
-                            <TrendingDown className="w-2.5 h-2.5" />
-                          )}
-                          {pos.signal.recommendation === "HOLD" && (
-                            <Minus className="w-2.5 h-2.5" />
-                          )}
-                          {pos.signal.recommendation}
+                          {pos.side}
                         </span>
-                      )}
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <button
-                        type="button"
-                        onClick={() => handleClose(pos.symbol)}
-                        className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold transition-colors hover:opacity-80"
+                      </td>
+                      <td className="px-3 py-2.5 font-mono text-xs text-foreground">
+                        {pos.quantity % 1 === 0
+                          ? pos.quantity.toLocaleString()
+                          : pos.quantity.toFixed(4)}
+                      </td>
+                      <td className="px-3 py-2.5 font-mono text-xs text-muted-foreground">
+                        {formatPrice(pos.entryPrice)}
+                      </td>
+                      <td className="px-3 py-2.5 font-mono text-xs text-foreground">
+                        {formatPrice(pos.currentPrice)}
+                      </td>
+                      <td
+                        className="px-3 py-2.5 font-mono text-xs font-semibold"
                         style={{
-                          background: "oklch(0.65 0.22 25 / 0.15)",
-                          color: "oklch(0.65 0.22 25)",
-                          border: "1px solid oklch(0.65 0.22 25 / 0.4)",
+                          color:
+                            pos.pnl >= 0
+                              ? "oklch(0.72 0.18 155)"
+                              : "oklch(0.65 0.22 25)",
                         }}
                       >
-                        <X className="w-3 h-3 inline mr-0.5" />
-                        Close
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                        {pos.pnl >= 0 ? "+" : ""}
+                        {formatLargeNumber(pos.pnl)}
+                      </td>
+                      <td
+                        className="px-3 py-2.5 font-mono text-xs font-semibold"
+                        style={{
+                          color:
+                            pos.pnlPct >= 0
+                              ? "oklch(0.72 0.18 155)"
+                              : "oklch(0.65 0.22 25)",
+                        }}
+                      >
+                        {pos.pnlPct >= 0 ? "+" : ""}
+                        {pos.pnlPct.toFixed(2)}%
+                      </td>
+                      <td className="px-3 py-2.5">
+                        {pos.signal && sigStyle && (
+                          <span
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold font-mono"
+                            style={{
+                              background: sigStyle.bg,
+                              color: sigStyle.color,
+                            }}
+                          >
+                            {pos.signal.recommendation === "BUY" && (
+                              <TrendingUp className="w-2.5 h-2.5" />
+                            )}
+                            {pos.signal.recommendation === "SELL" && (
+                              <TrendingDown className="w-2.5 h-2.5" />
+                            )}
+                            {pos.signal.recommendation === "HOLD" && (
+                              <Minus className="w-2.5 h-2.5" />
+                            )}
+                            {pos.signal.recommendation}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-3 py-2.5">
+                        <button
+                          type="button"
+                          onClick={() => handleClose(pos.symbol)}
+                          className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold transition-colors hover:opacity-80"
+                          style={{
+                            background: "oklch(0.65 0.22 25 / 0.15)",
+                            color: "oklch(0.65 0.22 25)",
+                            border: "1px solid oklch(0.65 0.22 25 / 0.4)",
+                          }}
+                        >
+                          <X className="w-3 h-3 inline mr-0.5" />
+                          Close
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
           {positionData.length === 0 && (
             <div className="py-8 text-center text-sm text-muted-foreground font-mono">
               No open positions

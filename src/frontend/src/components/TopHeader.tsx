@@ -43,7 +43,7 @@ function NotificationDropdown({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="absolute right-0 top-full mt-2 w-80 rounded-xl overflow-hidden shadow-2xl z-50"
+      className="absolute right-0 top-full mt-2 w-80 max-w-[calc(100vw-1.5rem)] rounded-xl overflow-hidden shadow-2xl z-50"
       style={{
         background: "oklch(0.135 0.007 240)",
         border: "1px solid oklch(0.25 0.012 240)",

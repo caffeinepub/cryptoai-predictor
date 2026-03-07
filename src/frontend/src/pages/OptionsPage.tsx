@@ -205,7 +205,7 @@ export function OptionsPage() {
           </button>
         </div>
       )}
-      <div className="px-4 py-4 space-y-4">
+      <div className="px-4 py-4 space-y-4 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-4">
         {/* Controls */}
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">

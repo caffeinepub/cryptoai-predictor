@@ -40,7 +40,7 @@ export function WalletPage() {
 
   return (
     <div className="flex flex-col h-full overflow-y-auto">
-      <div className="px-4 py-4 space-y-5">
+      <div className="px-4 py-4 space-y-5 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-5">
         {/* Total balance hero */}
         <div
           className="rounded-xl p-6"
@@ -123,118 +123,122 @@ export function WalletPage() {
             </div>
           </div>
 
-          <table className="w-full">
-            <thead>
-              <tr
-                style={{
-                  background: "oklch(0.13 0.007 240)",
-                  borderBottom: "1px solid oklch(0.20 0.010 240)",
-                }}
-              >
-                {[
-                  "Coin",
-                  "Amount",
-                  "USD Value",
-                  "24h %",
-                  "Price",
-                  "Actions",
-                ].map((h) => (
-                  <th
-                    key={h}
-                    className="px-3 py-2 text-left text-[11px] font-mono font-medium text-muted-foreground first:pl-4"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredItems.map((item) => {
-                const isUp = item.change24h >= 0;
-                return (
-                  <tr
-                    key={item.symbol}
-                    className="exchange-row"
-                    style={{ borderBottom: "1px solid oklch(0.18 0.008 235)" }}
-                  >
-                    <td className="pl-4 pr-3 py-3">
-                      <div className="flex items-center gap-2.5">
-                        <CoinLogo
-                          symbol={item.symbol}
-                          color={item.color}
-                          size={28}
-                        />
-                        <div>
-                          <div className="text-xs font-semibold text-foreground">
-                            {item.symbol}
-                          </div>
-                          <div className="text-[10px] text-muted-foreground">
-                            {item.name}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-3 py-3 font-mono text-sm text-foreground">
-                      {item.amount % 1 === 0
-                        ? item.amount.toLocaleString()
-                        : item.amount.toFixed(6)}
-                    </td>
-                    <td className="px-3 py-3 font-mono text-sm font-semibold text-foreground">
-                      $
-                      {item.usdValue.toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </td>
-                    <td
-                      className="px-3 py-3 font-mono text-sm"
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[580px]">
+              <thead>
+                <tr
+                  style={{
+                    background: "oklch(0.13 0.007 240)",
+                    borderBottom: "1px solid oklch(0.20 0.010 240)",
+                  }}
+                >
+                  {[
+                    "Coin",
+                    "Amount",
+                    "USD Value",
+                    "24h %",
+                    "Price",
+                    "Actions",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="px-3 py-2 text-left text-[11px] font-mono font-medium text-muted-foreground first:pl-4"
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredItems.map((item) => {
+                  const isUp = item.change24h >= 0;
+                  return (
+                    <tr
+                      key={item.symbol}
+                      className="exchange-row"
                       style={{
-                        color: isUp
-                          ? "oklch(0.72 0.18 155)"
-                          : "oklch(0.65 0.22 25)",
+                        borderBottom: "1px solid oklch(0.18 0.008 235)",
                       }}
                     >
-                      {isUp ? "+" : ""}
-                      {item.change24h.toFixed(2)}%
-                    </td>
-                    <td className="px-3 py-3 font-mono text-xs text-muted-foreground">
-                      {formatPrice(item.price)}
-                    </td>
-                    <td className="px-3 py-3">
-                      <div className="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => handleDeposit(item.symbol)}
-                          className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-mono font-semibold transition-colors"
-                          style={{
-                            background: "oklch(0.82 0.16 88 / 0.12)",
-                            color: "oklch(0.82 0.16 88)",
-                            border: "1px solid oklch(0.82 0.16 88 / 0.35)",
-                          }}
-                        >
-                          <ArrowDownToLine className="w-3 h-3" />
-                          Dep
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleWithdraw(item.symbol)}
-                          className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-mono font-semibold transition-colors"
-                          style={{
-                            background: "oklch(0.20 0.010 240)",
-                            color: "oklch(0.70 0.010 225)",
-                            border: "1px solid oklch(0.28 0.012 240)",
-                          }}
-                        >
-                          <ArrowUpFromLine className="w-3 h-3" />
-                          Wdw
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      <td className="pl-4 pr-3 py-3">
+                        <div className="flex items-center gap-2.5">
+                          <CoinLogo
+                            symbol={item.symbol}
+                            color={item.color}
+                            size={28}
+                          />
+                          <div>
+                            <div className="text-xs font-semibold text-foreground">
+                              {item.symbol}
+                            </div>
+                            <div className="text-[10px] text-muted-foreground">
+                              {item.name}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-3 py-3 font-mono text-sm text-foreground">
+                        {item.amount % 1 === 0
+                          ? item.amount.toLocaleString()
+                          : item.amount.toFixed(6)}
+                      </td>
+                      <td className="px-3 py-3 font-mono text-sm font-semibold text-foreground">
+                        $
+                        {item.usdValue.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </td>
+                      <td
+                        className="px-3 py-3 font-mono text-sm"
+                        style={{
+                          color: isUp
+                            ? "oklch(0.72 0.18 155)"
+                            : "oklch(0.65 0.22 25)",
+                        }}
+                      >
+                        {isUp ? "+" : ""}
+                        {item.change24h.toFixed(2)}%
+                      </td>
+                      <td className="px-3 py-3 font-mono text-xs text-muted-foreground">
+                        {formatPrice(item.price)}
+                      </td>
+                      <td className="px-3 py-3">
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => handleDeposit(item.symbol)}
+                            className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-mono font-semibold transition-colors"
+                            style={{
+                              background: "oklch(0.82 0.16 88 / 0.12)",
+                              color: "oklch(0.82 0.16 88)",
+                              border: "1px solid oklch(0.82 0.16 88 / 0.35)",
+                            }}
+                          >
+                            <ArrowDownToLine className="w-3 h-3" />
+                            Dep
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleWithdraw(item.symbol)}
+                            className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-mono font-semibold transition-colors"
+                            style={{
+                              background: "oklch(0.20 0.010 240)",
+                              color: "oklch(0.70 0.010 225)",
+                              border: "1px solid oklch(0.28 0.012 240)",
+                            }}
+                          >
+                            <ArrowUpFromLine className="w-3 h-3" />
+                            Wdw
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

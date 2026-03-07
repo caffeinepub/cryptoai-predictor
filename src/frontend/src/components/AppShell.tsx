@@ -71,7 +71,7 @@ export function AppShell() {
       <div className="flex flex-1 overflow-hidden">
         <SideNav />
 
-        {/* Main content */}
+        {/* Main content — flex column, clips horizontally, scrolls via each page */}
         <main
           className="flex-1 overflow-hidden flex flex-col"
           style={{ background: "oklch(0.10 0.005 240)" }}

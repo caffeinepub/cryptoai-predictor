@@ -42,7 +42,7 @@ function AdminLoginForm() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-full px-4 py-12"
+      className="flex flex-col items-center justify-center min-h-full px-4 py-12 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-12"
       style={{ background: "oklch(0.10 0.005 240)" }}
     >
       <div
@@ -243,14 +243,18 @@ export function AdminPage() {
   }, [coins, signals]);
 
   if (!isAdminAuthenticated) {
-    return <AdminLoginForm />;
+    return (
+      <div className="h-full overflow-y-auto">
+        <AdminLoginForm />
+      </div>
+    );
   }
 
   const totalUserCount = userLoginLog.length;
 
   return (
     <div className="flex flex-col h-full overflow-y-auto">
-      <div className="px-4 py-4 space-y-5">
+      <div className="px-4 py-4 space-y-5 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-5">
         {/* Header row */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -387,7 +391,7 @@ export function AdminPage() {
             </div>
           ) : (
             <div className="overflow-x-auto" data-ocid="admin.users_table">
-              <table className="w-full">
+              <table className="w-full min-w-[680px]">
                 <thead>
                   <tr
                     style={{

@@ -37,7 +37,7 @@ export function WatchlistPage() {
 
   if (watchedCoins.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center px-8">
+      <div className="flex flex-col items-center justify-center h-full text-center px-8 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
         <Star
           className="w-16 h-16 mb-4 opacity-20"
           style={{ color: "oklch(0.82 0.16 88)" }}
@@ -74,7 +74,7 @@ export function WatchlistPage() {
       </div>
 
       {/* Table */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
         <table className="w-full hidden md:table">
           <thead className="sticky top-0 z-10">
             <tr
@@ -270,6 +270,7 @@ export function WatchlistPage() {
                       e.stopPropagation();
                       handleToggle(coin.symbol);
                     }}
+                    className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
                   >
                     <Star
                       className="w-4 h-4"

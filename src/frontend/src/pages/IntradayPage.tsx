@@ -314,7 +314,7 @@ export function IntradayPage() {
       userSubscription.expiresAt <= Date.now());
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full overflow-hidden">
       {/* Upgrade banner */}
       {showUpgradeBanner && (
         <div
@@ -430,20 +430,25 @@ export function IntradayPage() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-hidden flex flex-col md:flex-row">
+      {/* Content — mobile: scrollable column, desktop: fixed side-by-side */}
+      <div className="flex-1 overflow-y-auto md:overflow-hidden flex flex-col md:flex-row">
         {/* Chart panel */}
-        <div className="flex-1 p-3 overflow-hidden flex flex-col">
-          <IntradayCandlestickChart
-            candles={visibleCandles}
-            height={undefined}
-          />
+        <div
+          className="p-3 flex flex-col md:flex-1 md:overflow-hidden"
+          style={{ height: "clamp(260px, 55vw, 360px)" }}
+        >
+          <div className="flex-1 overflow-hidden h-full">
+            <IntradayCandlestickChart
+              candles={visibleCandles}
+              height={undefined}
+            />
+          </div>
         </div>
 
-        {/* Right panel */}
+        {/* Right panel — top border on mobile (stacked), left border on desktop (side by side) */}
         <div
-          className="w-full md:w-72 shrink-0 flex flex-col overflow-y-auto"
-          style={{ borderLeft: "1px solid oklch(0.20 0.010 240)" }}
+          className="w-full md:w-72 shrink-0 flex flex-col md:overflow-y-auto pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0 border-t md:border-t-0 md:border-l"
+          style={{ borderColor: "oklch(0.20 0.010 240)" }}
         >
           {/* Quick trade */}
           <div
