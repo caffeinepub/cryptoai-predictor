@@ -153,7 +153,7 @@ export default function App() {
     return (
       <div
         className="min-h-screen flex items-center justify-center"
-        style={{ background: "oklch(0.10 0.005 240)" }}
+        style={{ background: "oklch(1.0 0 0)" }}
       >
         <div className="flex flex-col items-center gap-4">
           <img
@@ -167,7 +167,7 @@ export default function App() {
                 key={i}
                 className="w-1.5 h-1.5 rounded-full"
                 style={{
-                  background: "oklch(0.82 0.16 88)",
+                  background: "oklch(0.72 0.16 88)",
                   animation: `pulse 1.2s ease-in-out ${i * 0.2}s infinite`,
                 }}
               />

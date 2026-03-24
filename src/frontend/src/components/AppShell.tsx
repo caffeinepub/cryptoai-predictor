@@ -57,8 +57,7 @@ export function AppShell() {
     <div
       className="flex flex-col overflow-hidden"
       style={{
-        background: "oklch(0.10 0.005 240)",
-        /* Use dynamic viewport height so iOS Safari address bar is accounted for */
+        background: "oklch(1.0 0 0)",
         height: "100dvh",
       }}
     >
@@ -71,10 +70,10 @@ export function AppShell() {
       <div className="flex flex-1 overflow-hidden">
         <SideNav />
 
-        {/* Main content — flex column, clips horizontally, scrolls via each page */}
+        {/* Main content */}
         <main
           className="flex-1 overflow-hidden flex flex-col"
-          style={{ background: "oklch(0.10 0.005 240)" }}
+          style={{ background: "oklch(1.0 0 0)" }}
         >
           <PageContent />
         </main>
@@ -86,14 +85,14 @@ export function AppShell() {
       {/* Footer */}
       <footer
         className="shrink-0 text-center py-2 text-[10px] text-muted-foreground font-mono hidden md:block"
-        style={{ borderTop: "1px solid oklch(0.18 0.008 235)" }}
+        style={{ borderTop: "1px solid oklch(0.88 0.006 240)" }}
       >
         © {new Date().getFullYear()} Crypto Vision AI · Built with ♥ using{" "}
         <a
           href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: "oklch(0.82 0.16 88)" }}
+          style={{ color: "oklch(0.55 0.16 88)" }}
           className="hover:underline"
         >
           caffeine.ai

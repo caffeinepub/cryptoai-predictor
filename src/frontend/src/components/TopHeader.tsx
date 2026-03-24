@@ -2,13 +2,15 @@ import {
   Bell,
   Clock,
   Crown,
+  Expand,
   LogOut,
   Menu,
+  Shrink,
   TrendingDown,
   TrendingUp,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { formatPrice } from "../data/cryptoData";
 import { useInternetIdentity } from "../hooks/useInternetIdentity";
 import { type SubscriptionPlan, useAppStore } from "../store/appStore";
@@ -45,19 +47,19 @@ function NotificationDropdown({ onClose }: { onClose: () => void }) {
     <div
       className="absolute right-0 top-full mt-2 w-80 max-w-[calc(100vw-1.5rem)] rounded-xl overflow-hidden shadow-2xl z-50"
       style={{
-        background: "oklch(0.135 0.007 240)",
-        border: "1px solid oklch(0.25 0.012 240)",
-        boxShadow: "0 8px 40px oklch(0.05 0.005 240 / 0.9)",
+        background: "oklch(0.99 0.002 240)",
+        border: "1px solid oklch(0.86 0.006 240)",
+        boxShadow: "0 8px 40px oklch(0.70 0.010 240 / 0.25)",
       }}
       data-ocid="notifications.panel"
     >
       {/* Header */}
       <div
         className="flex items-center justify-between px-4 py-3"
-        style={{ borderBottom: "1px solid oklch(0.22 0.010 240)" }}
+        style={{ borderBottom: "1px solid oklch(0.88 0.006 240)" }}
       >
         <div className="flex items-center gap-2">
-          <Bell className="w-4 h-4" style={{ color: "oklch(0.82 0.16 88)" }} />
+          <Bell className="w-4 h-4" style={{ color: "oklch(0.55 0.16 88)" }} />
           <span className="text-sm font-semibold text-foreground">
             Market Alerts
           </span>
@@ -81,7 +83,7 @@ function NotificationDropdown({ onClose }: { onClose: () => void }) {
           >
             <Bell
               className="w-8 h-8 opacity-20"
-              style={{ color: "oklch(0.82 0.16 88)" }}
+              style={{ color: "oklch(0.55 0.16 88)" }}
             />
             <p className="text-xs font-mono text-muted-foreground">
               No alerts yet. Market updates appear here.
@@ -92,18 +94,18 @@ function NotificationDropdown({ onClose }: { onClose: () => void }) {
             {notificationFeed.slice(0, 20).map((notif, idx) => {
               const isBullish = notif.direction === "bullish";
               const color = isBullish
-                ? "oklch(0.72 0.18 155)"
-                : "oklch(0.65 0.22 25)";
+                ? "oklch(0.45 0.18 155)"
+                : "oklch(0.50 0.22 25)";
               const bgColor = isBullish
-                ? "oklch(0.72 0.18 155 / 0.07)"
-                : "oklch(0.65 0.22 25 / 0.07)";
+                ? "oklch(0.45 0.18 155 / 0.06)"
+                : "oklch(0.50 0.22 25 / 0.06)";
               return (
                 <div
                   key={notif.id}
                   data-ocid={`notifications.item.${idx + 1}`}
-                  className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-white/5"
+                  className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-black/5"
                   style={{
-                    borderBottom: "1px solid oklch(0.18 0.008 235)",
+                    borderBottom: "1px solid oklch(0.90 0.005 235)",
                     background: bgColor,
                   }}
                 >
@@ -112,8 +114,8 @@ function NotificationDropdown({ onClose }: { onClose: () => void }) {
                     className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
                     style={{
                       background: isBullish
-                        ? "oklch(0.72 0.18 155 / 0.15)"
-                        : "oklch(0.65 0.22 25 / 0.15)",
+                        ? "oklch(0.45 0.18 155 / 0.12)"
+                        : "oklch(0.50 0.22 25 / 0.12)",
                     }}
                   >
                     {isBullish ? (
@@ -140,8 +142,8 @@ function NotificationDropdown({ onClose }: { onClose: () => void }) {
                         className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase"
                         style={{
                           background: isBullish
-                            ? "oklch(0.72 0.18 155 / 0.2)"
-                            : "oklch(0.65 0.22 25 / 0.2)",
+                            ? "oklch(0.45 0.18 155 / 0.15)"
+                            : "oklch(0.50 0.22 25 / 0.15)",
                           color,
                         }}
                       >
@@ -163,8 +165,8 @@ function NotificationDropdown({ onClose }: { onClose: () => void }) {
       <div
         className="px-4 py-2.5 flex items-center justify-between"
         style={{
-          borderTop: "1px solid oklch(0.22 0.010 240)",
-          background: "oklch(0.12 0.006 240)",
+          borderTop: "1px solid oklch(0.88 0.006 240)",
+          background: "oklch(0.96 0.004 240)",
         }}
       >
         <span className="text-[11px] font-mono text-muted-foreground">
@@ -172,11 +174,11 @@ function NotificationDropdown({ onClose }: { onClose: () => void }) {
         </span>
         <div
           className="flex items-center gap-1 text-[11px] font-mono"
-          style={{ color: "oklch(0.72 0.18 155)" }}
+          style={{ color: "oklch(0.45 0.18 155)" }}
         >
           <div
             className="w-1.5 h-1.5 rounded-full animate-pulse"
-            style={{ background: "oklch(0.72 0.18 155)" }}
+            style={{ background: "oklch(0.45 0.18 155)" }}
           />
           LIVE
         </div>
@@ -192,27 +194,49 @@ function getPlanBadgeStyle(
     case "pro":
       return {
         label: "PRO",
-        color: "oklch(0.82 0.16 88)",
-        bg: "oklch(0.82 0.16 88 / 0.12)",
-        border: "oklch(0.82 0.16 88 / 0.40)",
+        color: "oklch(0.55 0.16 88)",
+        bg: "oklch(0.55 0.16 88 / 0.10)",
+        border: "oklch(0.55 0.16 88 / 0.35)",
       };
     case "standard":
       return {
         label: "STANDARD",
-        color: "oklch(0.78 0.18 174)",
-        bg: "oklch(0.78 0.18 174 / 0.12)",
-        border: "oklch(0.78 0.18 174 / 0.40)",
+        color: "oklch(0.45 0.18 174)",
+        bg: "oklch(0.45 0.18 174 / 0.10)",
+        border: "oklch(0.45 0.18 174 / 0.35)",
       };
     case "basic":
       return {
         label: "BASIC",
-        color: "oklch(0.72 0.10 200)",
-        bg: "oklch(0.72 0.10 200 / 0.12)",
-        border: "oklch(0.72 0.10 200 / 0.40)",
+        color: "oklch(0.45 0.10 200)",
+        bg: "oklch(0.45 0.10 200 / 0.10)",
+        border: "oklch(0.45 0.10 200 / 0.35)",
       };
     default:
       return null;
   }
+}
+
+function useFullscreen() {
+  const [isFullscreen, setIsFullscreen] = useState(
+    !!document.fullscreenElement,
+  );
+
+  useEffect(() => {
+    const handler = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", handler);
+    return () => document.removeEventListener("fullscreenchange", handler);
+  }, []);
+
+  const toggle = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }, []);
+
+  return { isFullscreen, toggle };
 }
 
 export function TopHeader({ onMenuClick }: TopHeaderProps) {
@@ -226,7 +250,6 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
   const planBadge = (() => {
     const badge = getPlanBadgeStyle(userSubscription.plan);
     if (!badge) return null;
-    // Only show if not expired
     if (userSubscription.expiresAt && userSubscription.expiresAt <= Date.now())
       return null;
     return badge;
@@ -234,6 +257,7 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
   const clock = useLiveClock();
   const [showNotifications, setShowNotifications] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
+  const { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
 
   const unreadCount = notificationFeed.filter((n) => !n.read).length;
 
@@ -261,14 +285,11 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
     <header
       className="sticky top-0 z-30 flex items-center px-3 gap-2 shrink-0"
       style={{
-        background: "oklch(0.11 0.006 240)",
-        borderBottom: "1px solid oklch(0.20 0.010 240)",
-        /* Push content below the iOS status bar in standalone mode */
+        background: "oklch(0.99 0.002 240)",
+        borderBottom: "1px solid oklch(0.88 0.006 240)",
         paddingTop: "env(safe-area-inset-top)",
-        /* Reserve space for iPhone side notches */
         paddingLeft: "calc(0.75rem + env(safe-area-inset-left))",
         paddingRight: "calc(0.75rem + env(safe-area-inset-right))",
-        /* Minimum touch-target height + safe-area-inset-top */
         minHeight: "calc(3.5rem + env(safe-area-inset-top))",
       }}
     >
@@ -287,19 +308,19 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
           src="/assets/generated/crypto-vision-ai-logo-transparent.dim_200x200.png"
           alt="Crypto Vision AI"
           className="w-10 h-10"
-          style={{ filter: "drop-shadow(0 0 8px oklch(0.78 0.18 174 / 0.6))" }}
+          style={{ filter: "drop-shadow(0 0 8px oklch(0.55 0.18 174 / 0.5))" }}
         />
         <div className="hidden sm:flex flex-col leading-tight">
           <span
             className="font-display font-bold text-base tracking-tight"
-            style={{ color: "oklch(0.92 0.008 220)" }}
+            style={{ color: "oklch(0.15 0.008 220)" }}
           >
             Crypto Vision{" "}
-            <span style={{ color: "oklch(0.82 0.16 88)" }}>AI</span>
+            <span style={{ color: "oklch(0.55 0.16 88)" }}>AI</span>
           </span>
           <span
             className="text-[9px] font-mono"
-            style={{ color: "oklch(0.50 0.010 225)" }}
+            style={{ color: "oklch(0.55 0.010 225)" }}
           >
             AI-Powered Market Intelligence
           </span>
@@ -329,8 +350,8 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
                   <span
                     style={{
                       color: isUp
-                        ? "oklch(0.72 0.18 155)"
-                        : "oklch(0.65 0.22 25)",
+                        ? "oklch(0.45 0.18 155)"
+                        : "oklch(0.50 0.22 25)",
                     }}
                   >
                     {isUp ? "+" : ""}
@@ -349,14 +370,14 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
         <div
           className="hidden sm:flex items-center gap-1 px-2 py-1 rounded text-xs font-mono"
           style={{
-            background: "oklch(0.72 0.18 155 / 0.1)",
-            border: "1px solid oklch(0.72 0.18 155 / 0.25)",
-            color: "oklch(0.72 0.18 155)",
+            background: "oklch(0.45 0.18 155 / 0.10)",
+            border: "1px solid oklch(0.45 0.18 155 / 0.25)",
+            color: "oklch(0.40 0.18 155)",
           }}
         >
           <div
             className="w-1.5 h-1.5 rounded-full animate-pulse"
-            style={{ background: "oklch(0.72 0.18 155)" }}
+            style={{ background: "oklch(0.45 0.18 155)" }}
           />
           LIVE
         </div>
@@ -372,6 +393,21 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
           })}
         </div>
 
+        {/* Fullscreen toggle */}
+        <button
+          type="button"
+          data-ocid="header.fullscreen_button"
+          onClick={toggleFullscreen}
+          title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+          className="p-1.5 rounded hover:bg-accent/50 text-muted-foreground hover:text-foreground transition-colors"
+        >
+          {isFullscreen ? (
+            <Shrink className="w-4 h-4" />
+          ) : (
+            <Expand className="w-4 h-4" />
+          )}
+        </button>
+
         {/* Notifications bell */}
         <div ref={notifRef} className="relative">
           <button
@@ -385,7 +421,7 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
               <span
                 className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 rounded-full flex items-center justify-center text-[10px] font-mono font-bold px-0.5"
                 style={{
-                  background: "oklch(0.65 0.22 40)",
+                  background: "oklch(0.50 0.22 40)",
                   color: "oklch(0.97 0.01 40)",
                   lineHeight: 1,
                 }}
@@ -395,7 +431,7 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
             ) : (
               <span
                 className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full"
-                style={{ background: "oklch(0.82 0.16 88)" }}
+                style={{ background: "oklch(0.55 0.16 88)" }}
               />
             )}
           </button>
@@ -426,9 +462,9 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
             onClick={() => setActivePage("subscription")}
             className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded font-mono text-[10px] font-bold uppercase tracking-wider transition-all duration-200 hover:opacity-80"
             style={{
-              background: "oklch(0.16 0.008 235)",
-              border: "1px solid oklch(0.22 0.010 240)",
-              color: "oklch(0.55 0.012 225)",
+              background: "oklch(0.93 0.005 235)",
+              border: "1px solid oklch(0.85 0.008 240)",
+              color: "oklch(0.45 0.012 225)",
             }}
           >
             <Crown className="w-3 h-3" />
@@ -441,13 +477,13 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
           <div
             className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded font-mono text-xs"
             style={{
-              background: "oklch(0.16 0.008 235)",
-              border: "1px solid oklch(0.22 0.010 240)",
+              background: "oklch(0.93 0.005 235)",
+              border: "1px solid oklch(0.85 0.008 240)",
             }}
           >
             <div
               className="w-1.5 h-1.5 rounded-full"
-              style={{ background: "oklch(0.82 0.16 88)" }}
+              style={{ background: "oklch(0.55 0.16 88)" }}
             />
             <span className="text-muted-foreground">{truncate(principal)}</span>
           </div>
@@ -459,9 +495,9 @@ export function TopHeader({ onMenuClick }: TopHeaderProps) {
           onClick={clear}
           className="flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold transition-all duration-200"
           style={{
-            background: "oklch(0.62 0.22 25 / 0.1)",
-            border: "1px solid oklch(0.62 0.22 25 / 0.25)",
-            color: "oklch(0.72 0.15 25)",
+            background: "oklch(0.50 0.22 25 / 0.08)",
+            border: "1px solid oklch(0.50 0.22 25 / 0.22)",
+            color: "oklch(0.45 0.18 25)",
           }}
         >
           <LogOut className="w-3.5 h-3.5" />

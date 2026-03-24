@@ -45,11 +45,11 @@
 
     /* Light exchange palette */
     --background: 1.0 0 0;
-    --foreground: 0.10 0.005 240;
+    --foreground: 0.1 0.005 240;
     --card: 0.97 0.003 240;
-    --card-foreground: 0.10 0.005 240;
+    --card-foreground: 0.1 0.005 240;
     --popover: 0.97 0.003 235;
-    --popover-foreground: 0.10 0.005 240;
+    --popover-foreground: 0.1 0.005 240;
     /* Primary = Binance Yellow */
     --primary: 0.72 0.16 88;
     --primary-foreground: 0.1 0.01 88;
@@ -57,12 +57,12 @@
     --secondary-foreground: 0.15 0.008 235;
     --muted: 0.93 0.005 235;
     --muted-foreground: 0.45 0.012 225;
-    --accent: 0.90 0.008 235;
-    --accent-foreground: 0.10 0.005 240;
+    --accent: 0.9 0.008 235;
+    --accent-foreground: 0.1 0.005 240;
     --destructive: 0.62 0.22 25;
     --destructive-foreground: 0.98 0.01 0;
     --border: 0.85 0.008 240;
-    --input: 0.90 0.006 240;
+    --input: 0.9 0.006 240;
     --ring: 0.72 0.16 88;
 
     /* Semantic signal colors */
@@ -82,7 +82,7 @@
     --sidebar-foreground: 0.15 0.008 220;
     --sidebar-primary: 0.72 0.16 88;
     --sidebar-primary-foreground: 0.1 0.01 88;
-    --sidebar-accent: 0.90 0.006 235;
+    --sidebar-accent: 0.9 0.006 235;
     --sidebar-accent-foreground: 0.15 0.008 220;
     --sidebar-border: 0.85 0.006 240;
     --sidebar-ring: 0.72 0.16 88;
@@ -143,13 +143,27 @@
   }
 
   /* Terminal color utilities */
-  .text-terminal-cyan { color: oklch(0.45 0.18 174); }
-  .text-terminal-green { color: oklch(0.45 0.18 155); }
-  .text-terminal-red { color: oklch(0.50 0.22 25); }
-  .text-terminal-amber { color: oklch(0.55 0.18 75); }
-  .bg-terminal-cyan { background-color: oklch(0.45 0.18 174); }
-  .bg-terminal-green { background-color: oklch(0.45 0.18 155); }
-  .bg-terminal-red { background-color: oklch(0.50 0.22 25); }
+  .text-terminal-cyan {
+    color: oklch(0.45 0.18 174);
+  }
+  .text-terminal-green {
+    color: oklch(0.45 0.18 155);
+  }
+  .text-terminal-red {
+    color: oklch(0.5 0.22 25);
+  }
+  .text-terminal-amber {
+    color: oklch(0.55 0.18 75);
+  }
+  .bg-terminal-cyan {
+    background-color: oklch(0.45 0.18 174);
+  }
+  .bg-terminal-green {
+    background-color: oklch(0.45 0.18 155);
+  }
+  .bg-terminal-red {
+    background-color: oklch(0.5 0.22 25);
+  }
 
   /* Scanline effect */
   .scanline {
@@ -164,8 +178,8 @@
       0deg,
       transparent,
       transparent 2px,
-      oklch(0.90 0.005 240 / 0.03) 2px,
-      oklch(0.90 0.005 240 / 0.03) 4px
+      oklch(0.9 0.005 240 / 0.03) 2px,
+      oklch(0.9 0.005 240 / 0.03) 4px
     );
     z-index: 1;
   }
@@ -174,7 +188,7 @@
     color: oklch(0.45 0.18 155);
   }
   .text-signal-sell {
-    color: oklch(0.50 0.22 25);
+    color: oklch(0.5 0.22 25);
   }
   .text-signal-hold {
     color: oklch(0.55 0.16 88);
@@ -184,7 +198,7 @@
     background-color: oklch(0.45 0.18 155 / 0.12);
   }
   .bg-signal-sell {
-    background-color: oklch(0.50 0.22 25 / 0.12);
+    background-color: oklch(0.5 0.22 25 / 0.12);
   }
   .bg-signal-hold {
     background-color: oklch(0.55 0.16 88 / 0.12);
@@ -194,7 +208,7 @@
     border-color: oklch(0.45 0.18 155 / 0.4);
   }
   .border-signal-sell {
-    border-color: oklch(0.50 0.22 25 / 0.4);
+    border-color: oklch(0.5 0.22 25 / 0.4);
   }
   .border-signal-hold {
     border-color: oklch(0.55 0.16 88 / 0.4);
@@ -209,7 +223,7 @@
   }
 
   .glow-sell {
-    box-shadow: 0 0 12px oklch(0.50 0.22 25 / 0.3);
+    box-shadow: 0 0 12px oklch(0.5 0.22 25 / 0.3);
   }
 
   /* Exchange row hover */
@@ -228,7 +242,7 @@
   /* Nav active state */
   .nav-active {
     color: oklch(0.72 0.16 88);
-    background: oklch(0.72 0.16 88 / 0.10);
+    background: oklch(0.72 0.16 88 / 0.1);
   }
 
   /* Green/red row tints */
@@ -236,55 +250,107 @@
     background: oklch(0.45 0.18 155 / 0.05);
   }
   .row-loss {
-    background: oklch(0.50 0.22 25 / 0.05);
+    background: oklch(0.5 0.22 25 / 0.05);
   }
 
   .terminal-grid {
-    background-image:
-      linear-gradient(oklch(0.80 0.008 240 / 0.3) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(0.80 0.008 240 / 0.3) 1px, transparent 1px);
+    background-image: linear-gradient(
+        oklch(0.8 0.008 240 / 0.3) 1px,
+        transparent 1px
+      ), linear-gradient(90deg, oklch(0.8 0.008 240 / 0.3) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 }
 
 @keyframes ticker {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 /* Flicker animation for the "AI signals" text on the login hero */
 @keyframes flicker {
-  0%, 95%, 100% { opacity: 1; }
-  96% { opacity: 0.85; }
-  97% { opacity: 1; }
-  98% { opacity: 0.9; }
+  0%,
+  95%,
+  100% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.85;
+  }
+  97% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 0.9;
+  }
 }
 
 /* Live candle pulse */
 @keyframes candle-live {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.65; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
 }
 
-.animate-ticker { animation: ticker 60s linear infinite; }
-.animate-pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
-.animate-sparkle { animation: sparkle 2.5s ease-in-out infinite; }
-.animate-flicker { animation: flicker 8s ease-in-out infinite; }
-.animate-candle-live { animation: candle-live 1.2s ease-in-out infinite; }
+.animate-ticker {
+  animation: ticker 60s linear infinite;
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+.animate-sparkle {
+  animation: sparkle 2.5s ease-in-out infinite;
+}
+.animate-flicker {
+  animation: flicker 8s ease-in-out infinite;
+}
+.animate-candle-live {
+  animation: candle-live 1.2s ease-in-out infinite;
+}
 
 @keyframes sparkle {
-  0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
-  20% { transform: scale(1.4) rotate(45deg); opacity: 1; }
-  50% { transform: scale(0.8) rotate(90deg); opacity: 0.6; }
-  80% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+  0%,
+  100% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.4) rotate(45deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.8) rotate(90deg);
+    opacity: 0.6;
+  }
+  80% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 0.8;
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
 }
